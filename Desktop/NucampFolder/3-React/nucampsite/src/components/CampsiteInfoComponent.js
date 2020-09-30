@@ -148,7 +148,7 @@ function RenderComments({ comments, addComment, campsiteId }) {
             </div>
           );
         })}
-        <CommentForm addComment={addComment} campsiteId={campsiteId} />
+        <CommentForm campsiteId={campsiteId} addComment={addComment} />
       </div>
     );
   }
