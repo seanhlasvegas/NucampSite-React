@@ -37,7 +37,7 @@ class CommentForm extends React.Component {
   onSubmit = (e) => {
     this.toggleModal();
     console.log(e);
-    this.props.postComment(this.props.campsiteId, values.rating, values.author, values.text);
+    this.props.postComment(this.props.campsiteId, e.rating, e.author, e.text);
   };
 
   render() {
