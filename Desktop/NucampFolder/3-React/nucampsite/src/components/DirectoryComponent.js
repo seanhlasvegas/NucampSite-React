@@ -9,17 +9,26 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
-import { baseUrl } from '../shared/baseUrl';
+import { baseUrl } from "../shared/baseUrl";
+import { Fade, Stagger } from "react-animation-components";
 
 function RenderDirectoryItem({ campsite }) {
   return (
     <Card>
-      <Link to={`/directory/${campsite.id}`}>
-      <CardImg width="100%" src={baseUrl + campsite.image} alt={campsite.name} />
-        <CardImgOverlay>
-          <CardTitle>{campsite.name}</CardTitle>
-        </CardImgOverlay>
-      </Link>
+      <Fade in>
+        <Link to={`/directory/${campsite.id}`}>
+          <Stagger in>
+            <CardImg
+              width="100%"
+              src={baseUrl + campsite.image}
+              alt={campsite.name}
+            />
+          </Stagger>
+          <CardImgOverlay>
+            <CardTitle>{campsite.name}</CardTitle>
+          </CardImgOverlay>
+        </Link>
+      </Fade>
     </Card>
   );
 }
