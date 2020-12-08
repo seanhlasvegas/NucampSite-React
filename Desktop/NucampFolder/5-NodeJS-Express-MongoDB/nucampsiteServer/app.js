@@ -2,7 +2,7 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var logger = require("morgan");
-const config = require('./config');
+const config = require("./config");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -12,8 +12,9 @@ const partnerRouter = require("./routes/partnerRouter");
 
 const passport = require("passport");
 
-
 const mongoose = require("mongoose");
+
+const uploadRouter = require("./routes/uploadRouter");
 
 const url = config.mongoUrl;
 const connect = mongoose.connect(url, {
@@ -31,12 +32,17 @@ connect.then(
 var app = express();
 
 // Secure traffic only
-app.all('*', (req, res, next) => {
+app.all("*", (req, res, next) => {
   if (req.secure) {
     return next();
   } else {
-      console.log(`Redirecting to: https://${req.hostname}:${app.get('secPort')}${req.url}`);
-      res.redirect(301, `https://${req.hostname}:${app.get('secPort')}${req.url}`);
+    console.log(
+      `Redirecting to: https://${req.hostname}:${app.get("secPort")}${req.url}`
+    );
+    res.redirect(
+      301,
+      `https://${req.hostname}:${app.get("secPort")}${req.url}`
+    );
   }
 });
 
@@ -49,9 +55,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser('12345-67890-09876-54321'));
 
-
 app.use(passport.initialize());
 
+app.use("/imageUpload", uploadRouter);
 
 const auth = Buffer.from(authHeader.split(" ")[1], "base64")
   .toString()
@@ -67,7 +73,6 @@ if (user === "admin" && pass === "password") {
   err.status = 401;
   return next(err);
 }
-
 
 app.use(express.static(path.join(__dirname, "public")));
 
